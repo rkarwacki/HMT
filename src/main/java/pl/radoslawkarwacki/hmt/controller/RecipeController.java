@@ -46,15 +46,17 @@ public class RecipeController {
         return new ResponseEntity<>(recipeDtos, HttpStatus.OK);
     }
 
-    @PutMapping
-    public ResponseEntity<RecipeDto> update(@RequestBody RecipeDto recipeDto) {
-        Recipe recipe = recipeMapper.toRecipe(recipeDto);
-        Recipe savedEntity = recipeService.save(recipe);
-        return new ResponseEntity<>(recipeMapper.toRecipeDto(savedEntity), HttpStatus.OK);
+    @PostMapping
+    public ResponseEntity<RecipeDto> save(@RequestBody RecipeDto recipeDto) {
+        return saveRecipe(recipeDto);
     }
 
-    @PostMapping
-    public ResponseEntity<RecipeDto> create(@RequestBody RecipeDto recipeDto) {
+    @PutMapping
+    public ResponseEntity<RecipeDto> update(@RequestBody RecipeDto recipeDto) {
+        return saveRecipe(recipeDto);
+    }
+
+    private ResponseEntity<RecipeDto> saveRecipe(@RequestBody RecipeDto recipeDto) {
         Recipe recipe = recipeMapper.toRecipe(recipeDto);
         Recipe savedEntity = recipeService.save(recipe);
         return new ResponseEntity<>(recipeMapper.toRecipeDto(savedEntity), HttpStatus.OK);

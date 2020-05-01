@@ -3,6 +3,7 @@ package pl.radoslawkarwacki.hmt.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @Entity
@@ -14,5 +15,6 @@ public class RecipeCategory {
     private Long id;
 
     @Column(unique = true, name = "category_name")
+    @NotBlank
     private String name;
 }

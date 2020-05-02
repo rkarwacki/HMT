@@ -27,6 +27,7 @@ public interface RecipeMapper {
     @Mapping(target = "name", source = "recipe.recipeName")
     @Mapping(target = "recipeCategoryDto", source = "recipe.recipeCategory")
     @Mapping(target = "kcal")
+    @Mapping(target = "portions")
     @Mapping(target = "steps", source = "recipeSteps")
     @Mapping(target = "ingredients", source = "recipeIngredients")
     RecipeDetailsDto toRecipeDetailsDto(Recipe recipe, List<RecipeStep> recipeSteps, List<Ingredient> recipeIngredients);

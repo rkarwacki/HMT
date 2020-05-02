@@ -11,6 +11,7 @@ public class RecipeDetailsDto {
     private Long id;
     private String name;
     private int kcal;
+    private int portions;
     @JsonProperty("category")
     private RecipeCategoryDto recipeCategoryDto;
     private List<RecipeStepDto> steps;

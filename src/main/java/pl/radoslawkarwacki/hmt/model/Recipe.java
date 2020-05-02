@@ -20,10 +20,10 @@ public class Recipe {
     @NotBlank
     private String recipeName;
 
-    @Min(0)
+    @Min(1)
     private int kcal;
 
-    @Min(0)
+    @Min(1)
     private int portions;
 
     @OneToOne(fetch = FetchType.LAZY)

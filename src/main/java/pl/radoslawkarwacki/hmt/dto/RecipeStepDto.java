@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class RecipeStepDto {
 
-    private long id;
+    private Long id;
 
     private int stepNumber;
 

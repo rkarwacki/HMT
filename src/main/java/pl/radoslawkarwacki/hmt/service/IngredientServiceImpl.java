@@ -28,6 +28,14 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
+    public void synchronizeRecipeIngredients(List<Ingredient> ingredients, Long recipeId) {
+        findAllByRecipeId(recipeId)
+                .stream()
+                .filter(ingredient -> !ingredients.contains(ingredient))
+                .forEach(ingredient -> ingredientRepository.delete(ingredient));
+    }
+
+    @Override
     public List<Ingredient> saveAll(List<Ingredient> ingredients) {
         return null;
     }

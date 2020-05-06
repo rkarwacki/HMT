@@ -1,20 +1,24 @@
 package pl.radoslawkarwacki.hmt.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "recipe")
-public class Recipe {
-
-    @Id
-    @GeneratedValue
-    private Long id;
+public class Recipe extends BaseEntity {
 
     @Column(name = "recipe_name")
     @NotBlank
@@ -26,9 +30,16 @@ public class Recipe {
     @Min(1)
     private int portions;
 
+    @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<Ingredient> ingredients;
+
+    @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<RecipeStep> steps;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_category_id")
     @NotNull
     private RecipeCategory recipeCategory;
-
 }

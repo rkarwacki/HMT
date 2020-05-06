@@ -1,26 +1,25 @@
 package pl.radoslawkarwacki.hmt.model;
 
-import lombok.Data;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "recipe_step")
-public class RecipeStep {
+public class RecipeStep extends BaseEntity {
 
-    @Id
-    @GeneratedValue
-    private long id;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "recipe_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne
+    @JoinColumn(name = "recipe_id")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Recipe recipe;
 
     @NotNull

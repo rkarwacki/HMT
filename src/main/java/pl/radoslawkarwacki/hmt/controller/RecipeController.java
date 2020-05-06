@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.radoslawkarwacki.hmt.dto.RecipeDetailsDto;
 import pl.radoslawkarwacki.hmt.dto.RecipeDto;
-import pl.radoslawkarwacki.hmt.facade.RecipeFacade;
 import pl.radoslawkarwacki.hmt.mapper.RecipeMapper;
 import pl.radoslawkarwacki.hmt.model.Recipe;
 import pl.radoslawkarwacki.hmt.service.RecipeService;
@@ -20,14 +19,12 @@ import java.util.stream.Collectors;
 public class RecipeController {
 
     private RecipeService recipeService;
-    private RecipeFacade recipeFacade;
 
     private RecipeMapper recipeMapper = RecipeMapper.INSTANCE;
 
     @Autowired
-    public RecipeController(RecipeService recipeService, RecipeFacade recipeFacade) {
+    public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
-        this.recipeFacade = recipeFacade;
     }
 
     @GetMapping
@@ -47,19 +44,19 @@ public class RecipeController {
     }
 
     @PostMapping
-    public ResponseEntity<RecipeDto> save(@RequestBody RecipeDto recipeDto) {
+    public ResponseEntity<RecipeDetailsDto> save(@RequestBody RecipeDetailsDto recipeDto) {
         return saveRecipe(recipeDto);
     }
 
     @PutMapping
-    public ResponseEntity<RecipeDto> update(@RequestBody RecipeDto recipeDto) {
+    public ResponseEntity<RecipeDetailsDto> update(@RequestBody RecipeDetailsDto recipeDto) {
         return saveRecipe(recipeDto);
     }
 
-    private ResponseEntity<RecipeDto> saveRecipe(@RequestBody RecipeDto recipeDto) {
-        Recipe recipe = recipeMapper.toRecipe(recipeDto);
-        Recipe savedEntity = recipeService.save(recipe);
-        return new ResponseEntity<>(recipeMapper.toRecipeDto(savedEntity), HttpStatus.OK);
+    private ResponseEntity<RecipeDetailsDto> saveRecipe(@RequestBody RecipeDetailsDto recipeDto) {
+        Recipe recipeToSave = recipeMapper.toRecipe(recipeDto);
+        Recipe savedEntity = recipeService.save(recipeToSave);
+        return new ResponseEntity<>(recipeMapper.toRecipeDetailsDto(savedEntity), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -70,7 +67,8 @@ public class RecipeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<RecipeDetailsDto> getById(@PathVariable("id") Long id) {
-        return recipeFacade.findByRecipeId(id)
+        return recipeService.findById(id)
+                .map(recipe -> recipeMapper.toRecipeDetailsDto(recipe))
                 .map(recipe -> new ResponseEntity<>(recipe, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

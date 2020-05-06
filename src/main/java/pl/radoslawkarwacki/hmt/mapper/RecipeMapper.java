@@ -6,11 +6,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import pl.radoslawkarwacki.hmt.dto.RecipeDetailsDto;
 import pl.radoslawkarwacki.hmt.dto.RecipeDto;
-import pl.radoslawkarwacki.hmt.model.Ingredient;
 import pl.radoslawkarwacki.hmt.model.Recipe;
-import pl.radoslawkarwacki.hmt.model.RecipeStep;
-
-import java.util.List;
 
 @Mapper(uses = {RecipeCategoryMapper.class, RecipeStepMapper.class, IngredientMapper.class})
 public interface RecipeMapper {
@@ -28,9 +24,9 @@ public interface RecipeMapper {
     @Mapping(target = "recipeCategoryDto", source = "recipe.recipeCategory")
     @Mapping(target = "kcal")
     @Mapping(target = "portions")
-    @Mapping(target = "steps", source = "recipeSteps")
-    @Mapping(target = "ingredients", source = "recipeIngredients")
-    RecipeDetailsDto toRecipeDetailsDto(Recipe recipe, List<RecipeStep> recipeSteps, List<Ingredient> recipeIngredients);
+    @Mapping(target = "steps")
+    @Mapping(target = "ingredients")
+    RecipeDetailsDto toRecipeDetailsDto(Recipe recipe);
 
     @InheritInverseConfiguration
     Recipe toRecipe(RecipeDetailsDto recipeDto);

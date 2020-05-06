@@ -1,24 +1,23 @@
 package pl.radoslawkarwacki.hmt.model;
 
-import lombok.Data;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "ingredient")
-public class Ingredient {
+public class Ingredient extends BaseEntity {
 
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "recipe_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne
+    @JoinColumn(name = "recipe_id")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Recipe recipe;
 
     @NotBlank

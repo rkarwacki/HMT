@@ -12,8 +12,8 @@ public interface RecipeStepMapper {
     @Mapping(target = "id")
     @Mapping(target = "stepNumber")
     @Mapping(target = "stepDescription")
-    RecipeStepDto fromIngredient(RecipeStep ingredient);
+    RecipeStepDto fromRecipeStep(RecipeStep recipeStep);
 
     @InheritInverseConfiguration
-    RecipeStep fromIngredient(RecipeStepDto ingredient);
+    RecipeStep fromRecipeStepDto(RecipeStepDto recipeStepDto);
 }

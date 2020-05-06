@@ -2,6 +2,7 @@ package pl.radoslawkarwacki.hmt.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.radoslawkarwacki.hmt.model.Ingredient;
 import pl.radoslawkarwacki.hmt.model.RecipeStep;
 import pl.radoslawkarwacki.hmt.repository.RecipeStepRepository;
 
@@ -24,6 +25,14 @@ public class RecipeStepServiceImpl implements RecipeStepService {
         return recipeStepRepository.findAllByRecipeId(recipeId).stream()
                 .sorted(Comparator.comparing(RecipeStep::getStepNumber))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void synchronizeRecipeSteps(List<RecipeStep> steps, Long recipeId) {
+        findAllByRecipeId(recipeId)
+                .stream()
+                .filter(ingredient -> !steps.contains(ingredient))
+                .forEach(ingredient -> recipeStepRepository.delete(ingredient));
     }
 
     @Override

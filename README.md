@@ -4,6 +4,6 @@ A simple application for managing the household: recipes, expenses, tasks.
 
 ### Running
 
-`mvn spring-boot:run` will start the app
+To run with an in-memory database, use `mvn spring-boot:run -Dspring-boot.run.profile=dev`
 
-A running PostgreSQL database is required. 
+`mvn spring-boot:run` requires a running PostgreSQL database. 

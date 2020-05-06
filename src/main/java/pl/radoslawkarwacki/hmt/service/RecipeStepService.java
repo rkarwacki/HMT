@@ -7,6 +7,7 @@ import java.util.List;
 public interface RecipeStepService {
 
     List<RecipeStep> findAllByRecipeId(Long recipeId);
+    void synchronizeRecipeSteps(List<RecipeStep> steps, Long recipeId);
     List<RecipeStep> saveAll(List<RecipeStep> recipeSteps);
 
 }
